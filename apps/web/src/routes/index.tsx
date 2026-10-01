@@ -1,3 +1,11 @@
+import {
+  CheckFatIcon,
+  CheckIcon,
+  ListBulletsIcon,
+  MagnifyingGlassIcon,
+  PlusIcon,
+  TrashIcon,
+} from "@phosphor-icons/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Suspense, useEffect, useState } from "react";
 import { ErrorBoundary } from "../components/ErrorBoundary";
@@ -48,7 +56,7 @@ function TodoList() {
               : "border-slate-600 hover:border-slate-400"
           }`}
         >
-          {todo.completed && "✓"}
+          {todo.completed && <CheckIcon size={12} />}
         </div>
       </button>
 
@@ -68,7 +76,7 @@ function TodoList() {
         className="p-1.5 text-rose-400 bg-rose-950/30 hover:bg-rose-900/50 border border-rose-800/30 rounded-md transition-colors cursor-pointer"
         title="Delete todo"
       >
-        🗑️
+        <TrashIcon size={16} />
       </button>
     </div>
   );
@@ -86,7 +94,7 @@ function TodoList() {
             className="w-full bg-[#111625] border border-slate-800 rounded-lg px-3.5 py-2 pr-9 text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:border-blue-500 transition-colors"
           />
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">
-            🔍
+            <MagnifyingGlassIcon size={16} />
           </span>
         </div>
 
@@ -100,7 +108,9 @@ function TodoList() {
               disabled={isAdding}
               className="w-full bg-[#111625] border border-slate-800 rounded-lg px-3.5 py-2 pr-8 text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:border-blue-500 disabled:opacity-50 transition-colors"
             />
-            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500">+</span>
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500">
+              <PlusIcon size={16} />
+            </span>
           </div>
           <button
             type="submit"
@@ -115,7 +125,9 @@ function TodoList() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold bg-slate-800/80 text-slate-300 w-max">
-            <span>👥</span>
+            <span>
+              <ListBulletsIcon size={16} />
+            </span>
             <span>Total: {stats.total}</span>
           </div>
           <div className="border border-slate-800 rounded-lg flex flex-col bg-[#111625] min-h-62.5 divide-y divide-slate-800 overflow-hidden">
@@ -131,7 +143,9 @@ function TodoList() {
 
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold bg-emerald-950/70 text-emerald-400 border border-emerald-800/30 w-max">
-            <span>✓</span>
+            <span>
+              <CheckIcon size={16} />
+            </span>
             <span>Active: {stats.active}</span>
           </div>
           <div className="border border-slate-800 rounded-lg flex flex-col bg-[#111625] min-h-62.5 divide-y divide-slate-800 overflow-hidden">
@@ -147,7 +161,9 @@ function TodoList() {
 
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold bg-blue-950/70 text-blue-400 border border-blue-800/30 w-max">
-            <span>☑</span>
+            <span>
+              <CheckFatIcon size={16} />
+            </span>
             <span>Completed: {stats.completed}</span>
           </div>
           <div className="border border-slate-800 rounded-lg flex flex-col bg-[#111625] min-h-62.5 divide-y divide-slate-800 overflow-hidden">
