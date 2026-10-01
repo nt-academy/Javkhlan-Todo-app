@@ -1,17 +1,12 @@
-import { createRootRoute, HeadContent, Link, Outlet, Scripts } from "@tanstack/react-router";
-import { AuthProvider, useAuth } from "../lib/AuthContext";
-import appCss from "../tailwind.css?url";
+import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
+import { AuthProvider } from "../lib/AuthContext";
+import "../tailwind.css";
 
 export const Route = createRootRoute({
-  head: () => ({
-    links: [{ rel: "stylesheet", href: appCss }],
-  }),
   component: RootLayout,
 });
 
 function Navigation() {
-  const { isAuthenticated, login, logout } = useAuth();
-
   return (
     <nav className="flex items-center justify-between pb-4 mb-6 border-b border-slate-800">
       <div className="flex items-center gap-3">
@@ -22,7 +17,7 @@ function Navigation() {
             className: "!text-blue-500 font-semibold border-b-2 border-blue-500 pb-0.5",
           }}
         >
-          Home (Todos)
+          Home
         </Link>
         <span className="text-slate-700">|</span>
         <Link
@@ -32,40 +27,20 @@ function Navigation() {
             className: "!text-blue-500 font-semibold border-b-2 border-blue-500 pb-0.5",
           }}
         >
-          Settings (Protected)
+          Settings
         </Link>
       </div>
-
-      <button
-        type="button"
-        onClick={isAuthenticated ? logout : login}
-        className="flex items-center gap-2 px-3 py-1.5 text-sm text-slate-200 bg-transparent border border-slate-700 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
-      >
-        <span>↪</span>
-        <span>{isAuthenticated ? "Logout" : "Login"}</span>
-      </button>
     </nav>
   );
 }
 
 function RootLayout() {
   return (
-    <html lang="en" className="bg-[#111625] min-h-screen text-slate-100 antialiased">
-      <head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Todo Dashboard</title>
-        <HeadContent />
-      </head>
-      <body className="bg-[#111625] p-6 min-h-screen">
-        <AuthProvider>
-          <div className="max-w-4xl mx-auto">
-            <Navigation />
-            <Outlet />
-          </div>
-        </AuthProvider>
-        <Scripts />
-      </body>
-    </html>
+    <AuthProvider>
+      <div className="max-w-4xl mx-auto">
+        <Navigation />
+        <Outlet />
+      </div>
+    </AuthProvider>
   );
 }

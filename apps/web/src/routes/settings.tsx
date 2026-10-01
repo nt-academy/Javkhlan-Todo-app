@@ -17,7 +17,7 @@ function SettingsPage() {
   }
 
   return (
-    <div>
+    <div className="text-white">
       <h1>Settings Page</h1>
       <p>This route is protected by authentication state.</p>
     </div>

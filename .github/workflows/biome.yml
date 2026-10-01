@@ -2,9 +2,9 @@ name: Code Quality Gate
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main, todo-app ] 
   pull_request:
-    branches: [ master ]
+    branches: [ main, todo-app ]
 
 jobs:
   biome-check:
