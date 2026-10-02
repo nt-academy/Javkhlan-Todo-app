@@ -1,46 +1,37 @@
-import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
-import { AuthProvider } from "../lib/AuthContext";
-import "../tailwind.css";
+import { createRootRoute, Navigate, Outlet, useLocation } from "@tanstack/react-router";
+import { Suspense } from "react";
+import { ErrorBoundary } from "../components/ErrorBoundary";
+import { Header } from "../components/Header";
+import { Sidebar } from "../components/Sidebar";
+import { useAuth } from "../context/AuthContext";
+
+function RootComponent() {
+  const { isAuthenticated } = useAuth();
+  const location = useLocation();
+
+  if (!isAuthenticated && location.pathname !== "/login") {
+    return <Navigate to="/login" />;
+  }
+
+  if (location.pathname === "/login") {
+    return <Outlet />;
+  }
+
+  return (
+    <div className="flex min-h-screen bg-cyan-50/30 dark:bg-gray-950 font-sans text-gray-900 dark:text-gray-100">
+      <Sidebar />
+      <main className="flex-1 p-8 overflow-y-auto">
+        <Header />
+        <ErrorBoundary>
+          <Suspense fallback={<div className="p-8 text-center text-cyan-600">Loading...</div>}>
+            <Outlet />
+          </Suspense>
+        </ErrorBoundary>
+      </main>
+    </div>
+  );
+}
 
 export const Route = createRootRoute({
-  component: RootLayout,
+  component: RootComponent,
 });
-
-function Navigation() {
-  return (
-    <nav className="flex items-center justify-between pb-4 mb-6 border-b border-slate-800">
-      <div className="flex items-center gap-3">
-        <Link
-          to="/"
-          className="text-slate-400 font-medium hover:text-white transition-colors"
-          activeProps={{
-            className: "!text-blue-500 font-semibold border-b-2 border-blue-500 pb-0.5",
-          }}
-        >
-          Home
-        </Link>
-        <span className="text-slate-700">|</span>
-        <Link
-          to="/settings"
-          className="text-slate-400 font-medium hover:text-white transition-colors"
-          activeProps={{
-            className: "!text-blue-500 font-semibold border-b-2 border-blue-500 pb-0.5",
-          }}
-        >
-          Settings
-        </Link>
-      </div>
-    </nav>
-  );
-}
-
-function RootLayout() {
-  return (
-    <AuthProvider>
-      <div className="max-w-4xl mx-auto">
-        <Navigation />
-        <Outlet />
-      </div>
-    </AuthProvider>
-  );
-}
