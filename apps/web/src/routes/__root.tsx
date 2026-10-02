@@ -1,22 +1,34 @@
-import { createRootRoute, Navigate, Outlet, useLocation } from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet, redirect } from "@tanstack/react-router";
 import { Suspense } from "react";
 import { ErrorBoundary } from "../components/ErrorBoundary";
 import { Header } from "../components/Header";
 import { Sidebar } from "../components/Sidebar";
-import { useAuth } from "../context/AuthContext";
+import type { AuthContextType } from "../context/AuthContext";
+
+interface MyRouterContext {
+  auth: AuthContextType;
+}
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({
+  beforeLoad: ({ context, location }) => {
+    if (!context.auth.isAuthenticated && location.pathname !== "/login") {
+      throw redirect({
+        to: "/login",
+        search: {
+          redirect: location.href,
+        },
+      });
+    }
+    if (context.auth.isAuthenticated && location.pathname === "/login") {
+      throw redirect({
+        to: "/dashboard",
+      });
+    }
+  },
+  component: RootComponent,
+});
 
 function RootComponent() {
-  const { isAuthenticated } = useAuth();
-  const location = useLocation();
-
-  if (!isAuthenticated && location.pathname !== "/login") {
-    return <Navigate to="/login" />;
-  }
-
-  if (location.pathname === "/login") {
-    return <Outlet />;
-  }
-
   return (
     <div className="flex min-h-screen bg-cyan-50/30 dark:bg-gray-950 font-sans text-gray-900 dark:text-gray-100">
       <Sidebar />
@@ -31,7 +43,3 @@ function RootComponent() {
     </div>
   );
 }
-
-export const Route = createRootRoute({
-  component: RootComponent,
-});

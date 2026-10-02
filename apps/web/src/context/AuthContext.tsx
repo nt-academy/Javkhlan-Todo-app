@@ -8,7 +8,7 @@ interface User {
   location: string;
 }
 
-interface AuthContextType {
+export interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   login: (username: string, pass: string) => boolean;
