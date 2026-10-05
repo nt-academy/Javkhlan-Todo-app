@@ -9,6 +9,7 @@
     "typecheck": "tsc -b --noEmit"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
     "@react-template/api": "workspace:*",
     "@react-template/schemas": "workspace:*",
     "@tailwindcss/vite": "^4.0.13",
