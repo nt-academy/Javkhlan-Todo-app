@@ -1,4 +1,4 @@
-import { createRootRouteWithContext, Outlet, redirect } from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet, redirect, useLocation } from "@tanstack/react-router";
 import { Suspense } from "react";
 import { ErrorBoundary } from "../components/ErrorBoundary";
 import { Header } from "../components/Header";
@@ -29,6 +29,17 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 });
 
 function RootComponent() {
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/login";
+  if (isLoginPage) {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<div className="p-8 text-center text-cyan-600">Loading...</div>}>
+          <Outlet />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
   return (
     <div className="flex min-h-screen bg-cyan-50/30 dark:bg-gray-950 font-sans text-gray-900 dark:text-gray-100">
       <Sidebar />
